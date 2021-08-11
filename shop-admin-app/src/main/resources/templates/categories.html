@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="chunks/template_chunks :: head('Category list')"></head>
+
+<body>
+<nav th:replace="chunks/template_chunks :: header"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <a class="btn btn-primary" th:href="@{/category/add}" sec:authorize="hasRole('SUPER_ADMIN')">Add Category</a>
+
+        </div>
+        <div class="col-12">
+            <table class="table table-bordered my-2">
+                <thead>
+                <tr>
+                    <th scope="col" th:replace="chunks/table_tools :: sort_header('Id', 'id')"></th>
+                    <th scope="col" th:replace="chunks/table_tools :: sort_header('Name', 'name')"></th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${categories.hasContent()}" th:each="category : ${categories.content}">
+                    <th scope="row" th:text="${category.id}">1</th>
+                    <td th:text="${category.name}">Alex</td>
+                    <td sec:authorize="hasRole('SUPER_ADMIN')">
+                        <a class="btn btn-success" th:href="@{/category/edit(id = ${category.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/category/delete(id = ${category.id})}"><i
+                                class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                <tr th:unless="${categories.hasContent()}">
+                    <td colspan="4">No data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-8">
+            <nav aria-label="pagination" th:if="${categories.getTotalPages() > 1}">
+                <ul class="pagination">
+                    <li th:classappend="${categories.isFirst()} ? 'disabled'" class="page-item">
+                        <span th:if="${categories.isFirst()}" class="page-link">Previous</span>
+                        <a th:unless="${categories.isFirst()}" class="page-link"
+                           th:href="@{/category(page=${categories.number}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy})}">Previous</a>
+                    </li>
+                    <li th:each="num : ${#numbers.sequence(1, categories.totalPages)}"
+                        th:classappend="${num == categories.number + 1} ? 'active'"
+                        class="page-item">
+                        <a class="page-link"
+                           th:text="${num}"
+                           th:href="@{/category(page=${num}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir})}">1</a>
+                    </li>
+                    <li th:classappend="${categories.isLast()} ? 'disabled'" class="page-item">
+                        <span th:if="${categories.isLast()}" class="page-link">Next</span>
+                        <a th:unless="${categories.isLast()}" class="page-link"
+                           th:href="@{/category(page=${categories.number + 2}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir}
+                            , minPrice=${param.minPrice}
+                            , maxPrice=${param.maxPrice})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-4 page-size">
+            <span class="page-size__title">Items per page:</span>
+            <ul class="pagination">
+                <li th:each="pg : ${#numbers.sequence(3, 9, 3)}"
+                    th:classappend="${categories.size == pg} ? 'active'"
+                    class="page-item">
+                    <a class="page-link"
+                       th:text="${pg}"
+                       th:href="@{/category(page=1
+                            , pageSize=${pg}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir})}">1</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="chunks/template_chunks :: scripts"></th:block>
+</body>
+</html>

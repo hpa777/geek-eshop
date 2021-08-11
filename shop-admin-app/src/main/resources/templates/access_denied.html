@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="chunks/template_chunks :: head('Access denied')"></head>
+
+<body>
+
+<nav th:replace="chunks/template_chunks :: header"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <h1 class="text-danger">Access denied</h1>
+    </div>
+</div>
+
+<th:block th:replace="chunks/template_chunks :: scripts"></th:block>
+</body>
+
+</html>
