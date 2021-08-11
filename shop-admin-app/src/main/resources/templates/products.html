@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="chunks/template_chunks :: head('Product list')"></head>
+
+<body>
+<nav th:replace="chunks/template_chunks :: header"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <a class="btn btn-primary" th:href="@{/product/add}" sec:authorize="hasRole('SUPER_ADMIN')">Add Product</a>
+
+        </div>
+        <div class="col-12 mt-3">
+            <form class="form-inline" th:method="get">
+                <input type="number" step="0.01" class="form-control mr-2" name="minPrice"
+                       th:value="${param.minPrice}" placeholder="min price">
+                <input type="number" step="0.01" class="form-control mr-2" name="maxPrice"
+                       th:value="${param.maxPrice}" placeholder="max price">
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+        </div>
+        <div class="col-12">
+            <table class="table table-bordered my-2">
+                <thead>
+                <tr>
+                    <th scope="col" th:replace="chunks/table_tools :: sort_header('Id', 'id')"></th>
+                    <th scope="col" th:replace="chunks/table_tools :: sort_header('Name', 'name')"></th>
+                    <th scope="col" th:replace="chunks/table_tools :: sort_header('Price', 'price')"></th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${products.hasContent()}" th:each="product : ${products.content}">
+                    <th scope="row" th:text="${product.id}">1</th>
+                    <td th:text="${product.name}">Alex</td>
+                    <td th:text="${product.price}">Alex</td>
+                    <td sec:authorize="hasRole('SUPER_ADMIN')">
+                        <a class="btn btn-success" th:href="@{/product/edit(id = ${product.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/product/delete(id = ${product.id})}"><i
+                                class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                <tr th:unless="${products.hasContent()}">
+                    <td colspan="4">No data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-8">
+            <nav aria-label="pagination" th:if="${products.getTotalPages() > 1}">
+                <ul class="pagination">
+                    <li th:classappend="${products.isFirst()} ? 'disabled'" class="page-item">
+                        <span th:if="${products.isFirst()}" class="page-link">Previous</span>
+                        <a th:unless="${products.isFirst()}" class="page-link"
+                           th:href="@{/product(page=${products.number}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir}
+                            , minPrice=${param.minPrice}
+                            , maxPrice=${param.maxPrice})}">Previous</a>
+                    </li>
+                    <li th:each="num : ${#numbers.sequence(1, products.totalPages)}"
+                        th:classappend="${num == products.number + 1} ? 'active'"
+                        class="page-item">
+                        <a class="page-link"
+                           th:text="${num}"
+                           th:href="@{/product(page=${num}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir}
+                            , minPrice=${param.minPrice}
+                            , maxPrice=${param.maxPrice})}">1</a>
+                    </li>
+                    <li th:classappend="${products.isLast()} ? 'disabled'" class="page-item">
+                        <span th:if="${products.isLast()}" class="page-link">Next</span>
+                        <a th:unless="${products.isLast()}" class="page-link"
+                           th:href="@{/product(page=${products.number + 2}
+                            , pageSize=${param.pageSize}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir}
+                            , minPrice=${param.minPrice}
+                            , maxPrice=${param.maxPrice})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-4 page-size">
+            <span class="page-size__title">Items per page:</span>
+            <ul class="pagination">
+                <li th:each="pg : ${#numbers.sequence(3, 9, 3)}"
+                    th:classappend="${products.size == pg} ? 'active'"
+                    class="page-item">
+                    <a class="page-link"
+                       th:text="${pg}"
+                       th:href="@{/product(page=1
+                            , pageSize=${pg}
+                            , sortBy=${param.sortBy}
+                            , sortDir=${param.sortDir}
+                            , minPrice=${param.minPrice}
+                            , maxPrice=${param.maxPrice})}">1</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="chunks/template_chunks :: scripts"></th:block>
+</body>
+</html>

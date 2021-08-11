@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="chunks/template_chunks :: head('Category')"></head>
+
+<body>
+
+<nav th:replace="chunks/template_chunks :: header"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <form th:action="@{/category}" method="post" th:object="${category}">
+                <input type="hidden" name="id" th:field="*{id}"/>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" th:field="*{name}"
+                           placeholder="Enter category name">
+                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="chunks/template_chunks :: scripts"></th:block>
+
+</body>
+</html>
