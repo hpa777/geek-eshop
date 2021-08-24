@@ -21,6 +21,10 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     public Product() {
     }
 
@@ -61,5 +65,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }
