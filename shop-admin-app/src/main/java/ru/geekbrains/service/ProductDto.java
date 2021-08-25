@@ -1,6 +1,9 @@
 package ru.geekbrains.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDto {
 
@@ -12,14 +15,19 @@ public class ProductDto {
 
     private CategoryDto category;
 
+    private MultipartFile[] newPictures;
+
+    private List<Long> pictures;
+
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String name, BigDecimal price, CategoryDto category) {
+    public ProductDto(Long id, String name, BigDecimal price, CategoryDto category, List<Long> pictures) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
+        this.pictures = pictures;
     }
 
     public Long getId() {
@@ -52,5 +60,21 @@ public class ProductDto {
 
     public void setCategory(CategoryDto category) {
         this.category = category;
+    }
+
+    public MultipartFile[] getNewPictures() {
+        return newPictures;
+    }
+
+    public void setNewPictures(MultipartFile[] newPictures) {
+        this.newPictures = newPictures;
+    }
+
+    public List<Long> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Long> pictures) {
+        this.pictures = pictures;
     }
 }

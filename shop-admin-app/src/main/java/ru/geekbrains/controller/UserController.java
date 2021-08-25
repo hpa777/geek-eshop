@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public String listPage(Model model,
                            UserListParams userListParams) {
         logger.info("User list page requested");
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @Secured({"ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public String editUser(@PathVariable("id") Long id, Model model) {
         logger.info("Edit user page requested");
 
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @Secured({"ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public String deleteUser(@PathVariable("id") Long id) {
         logger.info("Deleting user with id {}", id);
         userService.deleteById(id);
