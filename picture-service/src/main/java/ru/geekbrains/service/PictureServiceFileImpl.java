@@ -9,6 +9,7 @@ import ru.geekbrains.persist.Picture;
 import ru.geekbrains.persist.PictureRepository;
 
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -53,6 +54,22 @@ public class PictureServiceFileImpl implements PictureService {
     }
 
     @Override
+    @Transactional
+    public void deletePicture(long id) {
+        pictureRepository.findById(id)
+                .map(picture -> {
+                    try {
+                        if (Files.deleteIfExists(Paths.get(storagePath, picture.getStorageId()))) {
+                            pictureRepository.deleteById(id);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    @Override
     public String createPicture(byte[] picture) {
         String fileName = UUID.randomUUID().toString();
         try (OutputStream os = Files.newOutputStream(Paths.get(storagePath, fileName))) {
@@ -63,4 +80,6 @@ public class PictureServiceFileImpl implements PictureService {
         }
         return fileName;
     }
+
+
 }

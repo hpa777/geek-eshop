@@ -5,6 +5,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraph(
+        name = "product-with-category",
+        attributeNodes = {
+                @NamedAttributeNode("category"),
+                @NamedAttributeNode("pictures")
+        }
+)
 @Entity
 @Table(name = "products")
 public class Product {
