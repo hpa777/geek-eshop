@@ -2,7 +2,16 @@ package ru.geekbrains.persist;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@NamedEntityGraph(
+        name = "product-with-category",
+        attributeNodes = {
+                @NamedAttributeNode("category"),
+                @NamedAttributeNode("pictures")
+        }
+)
 @Entity
 @Table(name = "products")
 public class Product {
@@ -24,6 +33,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Picture> pictures = new ArrayList<>();
 
     public Product() {
     }
@@ -73,5 +85,13 @@ public class Product {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 }

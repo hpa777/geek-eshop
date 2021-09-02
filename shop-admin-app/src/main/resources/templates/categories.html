@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" th:href="@{/category/add}" sec:authorize="hasRole('SUPER_ADMIN')">Add Category</a>
+            <a class="btn btn-primary" th:href="@{/category/add}" sec:authorize="hasRole('ADMIN')">Add Category</a>
 
         </div>
         <div class="col-12">
@@ -27,7 +27,7 @@
                 <tr th:if="${categories.hasContent()}" th:each="category : ${categories.content}">
                     <th scope="row" th:text="${category.id}">1</th>
                     <td th:text="${category.name}">Alex</td>
-                    <td sec:authorize="hasRole('SUPER_ADMIN')">
+                    <td sec:authorize="hasRole('ADMIN')">
                         <a class="btn btn-success" th:href="@{/category/edit(id = ${category.id})}"><i
                                 class="fas fa-edit"></i></a>
                         <a class="btn btn-danger" th:href="@{/category/delete(id = ${category.id})}"><i

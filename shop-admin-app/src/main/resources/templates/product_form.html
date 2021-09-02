@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <form th:action="@{/product}" method="post" th:object="${product}">
+            <form th:action="@{/product}" method="post" th:object="${product}" enctype="multipart/form-data">
                 <input type="hidden" name="id" th:field="*{id}"/>
                 <div class="form-group">
                     <label>Name</label>
@@ -23,7 +23,7 @@
                            placeholder="Enter product price">
                 </div>
                 <div class="form-group">
-                    <label for="categories">Roles</label>
+                    <label for="categories">Category</label>
                     <select class="form-control" id="categories" th:field="*{category}" required>
                         <option th:each="category : ${categories}"
                                 th:text="${category.name}"
@@ -32,8 +32,23 @@
                                 ></option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="newPictures">Product image</label>
+                    <input th:field="*{newPictures}" type="file" class="form-control" id="newPictures"
+                           placeholder="Upload new product picture" multiple>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="form-group d-flex justify-content-start flex-wrap">
+                <div th:each="picId : ${product.pictures}"
+                     style="width:20%;height:10em;margin: 0 1em 1em 0">
+                    <form th:method="delete" th:action="@{/picture/{id}(id=${picId})}">
+                        <button type="submit"><i class="fa fa-times"></i></button>
+                    </form>
+                    <img style="width: 100%; height: 100%;object-fit:contain;"
+                         th:src="@{/picture/{id}(id=${picId})}" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
