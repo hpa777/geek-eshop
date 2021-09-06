@@ -6,13 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import ru.geekbrains.persist.ProductRepository;
+
 import ru.geekbrains.controller.ProductListParams;
+import ru.geekbrains.controller.dto.CategoryDto;
+import ru.geekbrains.controller.dto.ProductDto;
 import ru.geekbrains.persist.*;
 
-import javax.transaction.Transactional;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,44 +96,7 @@ public class ProductServiceImpl implements ProductService{
                         ));
     }
 
-    @Override
-    @Transactional
-    public void save(ProductDto productDto) {
-        Category category = new Category();
-        if (productDto.getCategory() != null) {
-            category.setId(productDto.getCategory().getId());
-            category.setName(productDto.getCategory().getName());
-        }
-        Product product = new Product(
-                productDto.getId(),
-                productDto.getName(),
-                productDto.getDescription(),
-                productDto.getPrice(),
-                category
-        );
-        if (productDto.getNewPictures() != null) {
-            for (MultipartFile newPicture : productDto.getNewPictures()) {
-                if (newPicture.isEmpty()) {
-                    continue;
-                }
-                try {
-                    product.getPictures().add(new Picture(null
-                            , newPicture.getOriginalFilename()
-                            , newPicture.getContentType()
-                            , pictureService.createPicture(newPicture.getBytes())
-                            , product
-                            )
-                    );
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        productRepository.save(product);
-    }
 
-    @Override
-    public void deleteById(Long Id) {
-        productRepository.deleteById(Id);
-    }
+
+
 }
