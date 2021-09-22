@@ -47,6 +47,12 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Page<ProductDto> findWithFilter(ProductListParams productListParams) {
         Specification<Product> spec  = Specification.where(null);
+        if (productListParams.getNamePattern() != null) {
+            spec = spec.and(ProductSpecification.byName(productListParams.getNamePattern()));
+        }
+        if (productListParams.getCategory() != null) {
+            spec = spec.and(ProductSpecification.byCategoryId(productListParams.getCategory()));
+        }
         if (productListParams.getMinPrice() != null) {
             spec = spec.and(ProductSpecification.minPrice(productListParams.getMinPrice()));
         }

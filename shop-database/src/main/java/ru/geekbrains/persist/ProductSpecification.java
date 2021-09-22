@@ -12,7 +12,11 @@ public final class ProductSpecification {
     public static Specification<Product> maxPrice(BigDecimal maxPrice) {
         return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.le(root.get("price"), maxPrice));
     }
-
-
+    public static Specification<Product> byName(String name) {
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+    }
+    public static Specification<Product> byCategoryId(long categoryId) {
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), categoryId));
+    }
 
 }
