@@ -23,6 +23,9 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "text")
+    private String description;
+
     @Column(nullable = false)
     private BigDecimal price;
 
@@ -40,9 +43,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, BigDecimal price, Category category) {
+    public Product(Long id, String name, String description, BigDecimal price, Category category) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.price = price;
         this.category = category;
     }
@@ -93,5 +97,13 @@ public class Product {
 
     public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
