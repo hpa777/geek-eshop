@@ -10,6 +10,10 @@ public class ProductListParams extends ListParams {
 
     private BigDecimal  maxPrice;
 
+    private String namePattern;
+
+    private Long category;
+
     public BigDecimal getMinPrice() {
         return minPrice;
     }
@@ -26,5 +30,19 @@ public class ProductListParams extends ListParams {
         this.maxPrice = maxPrice;
     }
 
+    public String getNamePattern() {
+        return namePattern;
+    }
 
+    public void setNamePattern(String namePattern) {
+        this.namePattern = namePattern;
+    }
+
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
+    }
 }

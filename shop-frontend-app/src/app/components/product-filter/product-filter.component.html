@@ -1,0 +1,20 @@
+<form (ngSubmit)="applyFilter()">
+  <label for="categories" class="form-label">Categories</label>
+  <select class="form-control" id="categories"  name="category" [(ngModel)]="productFilter.categoryId">
+    <option></option>
+    <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.name}}</option>
+  </select>
+  <label for="namePattern" class="form-label">Name</label>
+  <div class="input-group mb-3">
+    <input type="text" [(ngModel)]="productFilter.namePattern" class="form-control" name="namePattern" id="namePattern" placeholder="Name" aria-label="Name">
+  </div>
+
+  <label for="priceFilter" class="form-label">Price</label>
+  <div class="input-group mb-3" id="priceFilter">
+    <input type="number" [(ngModel)]="productFilter.minPrice" name="minPrice" class="form-control" placeholder="From" aria-label="From">
+    <span class="input-group-text">-</span>
+    <input type="number" [(ngModel)]="productFilter.maxPrice" name="maxPrice" class="form-control" placeholder="To" aria-label="To">
+  </div>
+
+  <button class="btn btn-primary" type="submit">Apply</button>
+</form>
