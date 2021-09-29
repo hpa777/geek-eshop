@@ -1,8 +1,9 @@
 package ru.geekbrains.controller.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class CategoryDto {
 
     private Long id;

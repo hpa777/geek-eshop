@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {PRODUCT_GALLERY_URL} from "../../pages/product-gallery-page/product-gallery-page.component";
 import {CART_URL} from "../../pages/cart-page/cart-page.component";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,7 +15,8 @@ export class NavBarComponent implements OnInit {
   isCartPage: boolean = false;
   isOrderPage: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              public auth: AuthService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
@@ -24,6 +26,11 @@ export class NavBarComponent implements OnInit {
         //this.isOrderPage = event.url === '/' + ORDERS_URL;
       }
     })
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigateByUrl("/");
   }
 
 }

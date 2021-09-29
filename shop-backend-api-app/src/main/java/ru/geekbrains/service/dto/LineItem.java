@@ -1,11 +1,15 @@
 package ru.geekbrains.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import ru.geekbrains.controller.dto.ProductDto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LineItem implements Serializable {
 
     private Long productId;
