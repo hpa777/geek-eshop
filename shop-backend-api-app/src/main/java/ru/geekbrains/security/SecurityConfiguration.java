@@ -19,11 +19,14 @@ public class SecurityConfiguration {
 
     @Autowired
     public void authConfigure(AuthenticationManagerBuilder auth,
-                              PasswordEncoder passwordEncoder) throws Exception {
+                              PasswordEncoder passwordEncoder,
+                              UserAuthService userAuthService) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("mem_user")
                 .password(passwordEncoder.encode("password"))
                 .roles("ADMIN", "SUPER_ADMIN");
+
+        auth.userDetailsService(userAuthService);
     }
 
     @Configuration

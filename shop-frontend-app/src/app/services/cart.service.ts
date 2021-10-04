@@ -20,9 +20,16 @@ export class CartService {
     return this.http.post('/api/v1/cart', dto)
   }
 
-  public delLine(dto: LineItem) {
-    return this.http.post('/api/v1/cart/del', dto)
+  public deleteLineItem(dto: LineItem) {
+    return this.http.delete('/api/v1/cart', {body: dto})
   }
 
+  public updateLineItem(dto: LineItem) {
+    return this.http.put('/api/v1/cart', dto)
+  }
+
+  public deleteAll() {
+    return this.http.delete('/api/v1/cart/all')
+  }
 
 }

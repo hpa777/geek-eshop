@@ -4,12 +4,14 @@ import { PRODUCT_GALLERY_URL, ProductGalleryPageComponent} from "./pages/product
 import {CART_URL, CartPageComponent} from "./pages/cart-page/cart-page.component";
 import {AuthGuard} from "./helpers/auth.guard";
 import {LOGIN_URL, LoginPageComponent} from "./pages/login-page/login-page.component";
+import {OrderPageComponent, ORDERS_URL} from "./pages/order-page/order-page.component";
 
 const routes: Routes = [
   {path: "", pathMatch: "full", redirectTo: PRODUCT_GALLERY_URL},
   {path: PRODUCT_GALLERY_URL, component: ProductGalleryPageComponent},
   {path: LOGIN_URL, component: LoginPageComponent},
-  {path: CART_URL, component: CartPageComponent, canActivate: [AuthGuard]}
+  {path: CART_URL, component: CartPageComponent},
+  {path: ORDERS_URL, component: OrderPageComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

@@ -35,7 +35,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
-                .map(user -> new UserDto(user.getId(), user.getUsername(), user.getAge()))
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getAge(),
+                        user.getRoles().stream().map(role -> new RoleDto(role.getId(), role.getName())).collect(Collectors.toSet())
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +65,12 @@ public class UserServiceImpl implements UserService {
                         Sort.by(Optional.ofNullable(userListParams.getSortField())
                                 .filter(c -> !c.isBlank())
                                 .orElse("id"))))
-                .map(user -> new UserDto(user.getId(), user.getUsername(), user.getAge()));
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getAge(),
+                        user.getRoles().stream().map(role -> new RoleDto(role.getId(), role.getName())).collect(Collectors.toSet())
+                ));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class SecurityConfig {
         auth.inMemoryAuthentication()
                 .withUser("mem_user")
                 .password(passwordEncoder.encode("pass"))
-                .roles("SUPER_ADMIN")
+                .roles("ADMIN")
                 .and()
                 .withUser("mem_guest")
                 .password(passwordEncoder.encode("qwe123"))

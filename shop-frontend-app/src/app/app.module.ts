@@ -14,6 +14,8 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import {UnauthorizedInterceptor} from "./helpers/unauthorized-interceptor";
+import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { OrderPageComponent } from './pages/order-page/order-page.component';
 
 
 
@@ -27,7 +29,9 @@ import {UnauthorizedInterceptor} from "./helpers/unauthorized-interceptor";
     PaginationComponent,
     CartPageComponent,
     ProductFilterComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    CartItemComponent,
+    OrderPageComponent
   ],
   imports: [
     BrowserModule,

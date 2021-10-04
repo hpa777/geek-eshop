@@ -10,14 +10,18 @@ import {Observable} from "rxjs";
 })
 export class AuthService {
 
-  private currentUser?: Credentials;
+  get currentUser(): Credentials | undefined {
+    return this._currentUser;
+  }
+
+  private _currentUser?: Credentials;
 
   public redirectUrl?: string;
 
   constructor(private http: HttpClient) {
     let data = localStorage.getItem('current_user');
     if (data) {
-      this.currentUser = JSON.parse(data);
+      this._currentUser = JSON.parse(data);
     }
   }
 
@@ -31,9 +35,9 @@ export class AuthService {
       .pipe(
         map(resp => {
           if ('username' in resp) {
-            this.currentUser = resp as Credentials;
+            this._currentUser = resp as Credentials;
             localStorage.setItem('current_user', JSON.stringify(resp));
-            return new AuthResult(this.currentUser, this.redirectUrl);
+            return new AuthResult(this._currentUser, this.redirectUrl);
           }
           throw new Error('Authentication error');
         })
@@ -42,13 +46,13 @@ export class AuthService {
 
   logout() {
     if (this.isAuthenticated()) {
-      this.currentUser = undefined;
+      this._currentUser = undefined;
       localStorage.removeItem("current_user");
       this.http.post('/api/v1/logout', {}).subscribe();
     }
   }
 
   public isAuthenticated(): boolean {
-    return !!this.currentUser;
+    return !!this._currentUser;
   }
 }

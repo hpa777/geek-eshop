@@ -38,8 +38,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void removeProductQty(ProductDto productDto, String color, String material, int qty) {
-        // TODO
+    public void updateProductQty(ProductDto productDto, String color, String material, int qty) {
+        LineItem lineItem = new LineItem(productDto, color, material);
+        if (qty == 0) {
+            lineItems.remove(lineItem);
+        } else {
+            lineItems.put(lineItem, qty);
+        }
     }
 
     @Override
@@ -61,5 +66,9 @@ public class CartServiceImpl implements CartService {
         return lineItems.keySet()
                 .stream().map(LineItem::getItemTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void removeAll() {
+        this.lineItems.clear();
     }
 }
