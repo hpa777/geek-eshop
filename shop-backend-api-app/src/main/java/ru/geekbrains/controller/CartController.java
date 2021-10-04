@@ -44,10 +44,19 @@ public class CartController {
         return new AllCartDto(cartService.getLineItems(), cartService.getSubTotal());
     }
 
-    @PostMapping(path = "/del", consumes = "application/json")
-    public void delete(@RequestBody AddLineItemDto addLineItemDto) {
-        ProductDto productDto = productService.findById(addLineItemDto.getProductId())
-                .orElseThrow(RuntimeException::new);
-        cartService.removeProduct(productDto, addLineItemDto.getColor(), addLineItemDto.getMaterial());
+    @DeleteMapping(consumes = "application/json")
+    public void delete(@RequestBody LineItem lineItem) {
+        cartService.removeProduct(lineItem.getProductDto(), lineItem.getColor(), lineItem.getMaterial());
     }
+
+    @PutMapping(consumes = "application/json")
+    public void update(@RequestBody LineItem lineItem) {
+        cartService.updateProductQty(lineItem.getProductDto(),lineItem.getColor(), lineItem.getMaterial(), lineItem.getQty());
+    }
+
+    @DeleteMapping("/all")
+    public void deleteAll() {
+        cartService.removeAll();
+    }
+
 }

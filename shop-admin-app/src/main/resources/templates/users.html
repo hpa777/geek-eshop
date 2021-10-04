@@ -43,6 +43,7 @@
                 <tr>
                     <th scope="col" th:replace="chunks/table_tools :: sort_header ('Id', 'id')"></th>
                     <th scope="col" th:replace="chunks/table_tools :: sort_header ('Username', 'username')"></th>
+                    <th scope="col">Role</th>
                     <th scope="col" th:replace="chunks/table_tools :: sort_header ('Age', 'age')"></th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -51,6 +52,9 @@
                 <tr th:if="${users.hasContent()}" th:each="user : ${users.content}">
                     <th scope="row" th:text="${user.id}">1</th>
                     <td th:text="${user.username}">Alex</td>
+                    <td>
+                        <span th:each="role : ${user.roles}" th:text="${role.name}"></span>
+                    </td>
                     <td th:text="${user.age}">22</td>
                     <td sec:authorize="hasRole('ADMIN')">
                         <a class="btn btn-success" th:href="@{/user/{id}(id = ${user.id})}"><i class="fas fa-edit"></i></a>

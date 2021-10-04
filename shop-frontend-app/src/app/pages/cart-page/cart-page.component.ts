@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {CartService} from "../../services/cart.service";
 import {AllCartDto} from "../../model/all-cart-dto";
-import {LineItem} from "../../model/line-item";
+import {AuthService} from "../../services/auth.service";
+import {OrderService} from "../../services/order.service";
 
 export const CART_URL = 'cart'
 
@@ -14,9 +15,15 @@ export class CartPageComponent implements OnInit {
 
   content?: AllCartDto;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+              public auth: AuthService,
+              private orderService: OrderService) { }
 
   ngOnInit(): void {
+    this.cartUpdated();
+  }
+
+  cartUpdated() {
     this.cartService.findAll().subscribe(
       res => {
         this.content = res;
@@ -24,11 +31,19 @@ export class CartPageComponent implements OnInit {
     )
   }
 
-  deleteLine(lineItem: LineItem) {
-    this.cartService.delLine(lineItem).subscribe(
-      res=> {
-        this.ngOnInit();
+  deleteAll() {
+    this.cartService.deleteAll().subscribe(
+      res => {
+        this.content = undefined;
       }
-    );
+    )
+  }
+
+  createOrder() {
+    this.orderService.createOrder().subscribe(
+      res => {
+        this.deleteAll();
+      }
+    )
   }
 }
