@@ -22,12 +22,9 @@ public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
 
-    private final PictureService pictureService;
-
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, PictureService pictureService) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.pictureService = pictureService;
     }
 
     @Override
