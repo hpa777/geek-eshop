@@ -24,6 +24,8 @@
         <module>shop-backend-api-app</module>
         <module>picture-service</module>
         <module>shop-picture-service-app</module>
+        <module>shop-delivery-service</module>
+        <module>spring-integration-demo</module>
     </modules>
 
 
