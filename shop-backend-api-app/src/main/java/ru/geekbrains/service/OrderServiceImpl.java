@@ -21,7 +21,6 @@ import ru.geekbrains.service.dto.OrderMessage;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,6 +125,6 @@ public class OrderServiceImpl implements OrderService {
         Order ord = orderRepository.findById(order.getId()).orElseThrow(() -> new RuntimeException("Order not found"));
         ord.setStatus(Order.OrderStatus.valueOf(order.getState()));
         orderRepository.save(ord);
-        //template.convertAndSend("/order_out/order", order);
+        template.convertAndSend("/order_out/order", order);
     }
 }
