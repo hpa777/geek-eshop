@@ -1,5 +1,11 @@
 server:
-  port: 8081
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
 
 spring:
   application:
@@ -8,10 +14,10 @@ spring:
     gateway:
       routes:
         - id: shop-picture-service
-          uri: lb://shop-picture-service-app:8083
+          uri: lb://SHOP-PICTURE-SERVICE
           predicates:
             - Path=/api/v1/picture/**
         - id: shop-backend-api
-          uri: lb:ws://shop-backend-api-app:8082
+          uri: lb://SHOP-BACKEND-API
           predicates:
             - Path=/api/v1/**
