@@ -14,7 +14,8 @@ export class OrderPageComponent implements OnInit {
 
   orders: Order[] = [];
 
-  constructor(private orderService: OrderService, private orderStatusService: OrderStatusService) { //
+  constructor(private orderService: OrderService,
+              private orderStatusService: OrderStatusService) {
   }
 
   ngOnInit(): void {
@@ -25,7 +26,8 @@ export class OrderPageComponent implements OnInit {
         error => {
           console.log(error);
         });
-    this.orderStatusService.onMessage('order_out/order').subscribe(msg => console.log(`New message with status ${msg}`));
+    this.orderStatusService.onMessage("order_out/order")
+      .subscribe(msg => console.log(`New message with status ${msg.state}`));
   }
 
 }

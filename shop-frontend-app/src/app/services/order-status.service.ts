@@ -11,14 +11,12 @@ export class OrderStatusService {
 
   private client;
 
-  private state: BehaviorSubject<SocketClientState>
+  private state: BehaviorSubject<SocketClientState>;
 
   constructor() {
-    let socket = new SockJS("/api/v1/socket-channel");
-    this.client = Stomp.over(socket);
+    this.client = Stomp.over(new SockJS("/api/v1/socket-channel"));
     this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
     this.client.connect({}, () => {
-      console.log('Connected: !!!');
       this.state.next(SocketClientState.CONNECTED);
     });
   }
