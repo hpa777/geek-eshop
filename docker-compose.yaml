@@ -3,32 +3,36 @@ services:
   cloud-config:
     image: registry.heroku.com/geek-spring-cloud-config/web:latest
     ports:
-      - 8888:8888
+      - 8888
+
+  shop-frontend-app:
+    image: shop-frontend-app
+    ports:
+      - 8080:80
+    depends_on:
+      - shop-admin-app
+      - shop-backend-api-app
+      - shop-picture-service-app
 
   shop-admin-app:
     image: registry.heroku.com/geek-shop-admin-app/web:latest
     ports:
-      - 8080:8080
+      - 8080
     volumes:
       - file-storage:/var/storage
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
 
-  geek-spring-cloud-gateway:
-    image: registry.heroku.com/geek-spring-cloud-gateway/web:latest
-    ports:
-      - 8081:8081
-    command: bash -c "/apps/wait-for-service.sh shop-backend-api-app 8082 && /apps/wait-for-service.sh shop-picture-service-app 8083 && /apps/entrypoint.sh"
 
   shop-backend-api-app:
     image: registry.heroku.com/geek-shop-backend-api-app/web:latest
     ports:
-      - 8082:8082
+      - 8080
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh redis 6379 && /apps/wait-for-service.sh rabbitmq 5672 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
 
   shop-picture-service-app:
     image: registry.heroku.com/geek-shop-picture-service-app/web:latest
     ports:
-      - 8083:8083
+      - 8080
     volumes:
       - file-storage:/var/storage
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
