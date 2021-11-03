@@ -17,7 +17,7 @@ services:
   shop-admin-app:
     image: registry.heroku.com/geek-shop-admin-app/web:latest
     ports:
-      - 8080
+      - 8086:8080
     volumes:
       - file-storage:/var/storage
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
