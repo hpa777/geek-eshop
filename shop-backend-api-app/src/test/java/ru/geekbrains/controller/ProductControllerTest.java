@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import ru.geekbrains.persist.CategoryRepository;
 import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.Category;
@@ -58,6 +59,7 @@ public class ProductControllerTest {
                 .param("sortField", "id")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.content", hasSize(1)))
                 .andExpect(jsonPath("$.content[0].name", is(product.getName())));
     }

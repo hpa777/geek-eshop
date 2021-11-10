@@ -18,7 +18,7 @@
                            placeholder="Enter category name">
                     <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             </form>
         </div>
     </div>
