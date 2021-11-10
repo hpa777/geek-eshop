@@ -28,6 +28,12 @@ public class Steps {
         webDriver.get(DriverInitializer.getProperty("login.url"));
     }
 
+    @When("I navigate to product page")
+    public void iNavigateToProductPage() throws InterruptedException {
+        webDriver.get(DriverInitializer.getProperty("front.url"));
+        Thread.sleep(2000);
+    }
+
     @When("I click on element with id {string}")
     public void iClickOnElementWithId(String id) {
         WebElement webElement = webDriver.findElement(By.id(id));
@@ -72,6 +78,34 @@ public class Steps {
         }
         assertEquals(true, flag);
     }
+
+    private String productName;
+
+    @When("I add the product to the cart")
+    public void iAddProductToCart() throws InterruptedException {
+        WebElement card = webDriver.findElement(By.cssSelector(".card"));
+        productName = card.findElement(By.cssSelector(".card-title")).getText();
+        System.out.println(productName);
+        WebElement button = card.findElement(By.cssSelector(".btn-primary:last-child"));
+        button.click();
+        Thread.sleep(2000);
+    }
+
+    @Then("check product in the cart")
+    public void checkProduct() {
+        webDriver.findElement(By.xpath("/html/body/app-root/app-nav-bar/nav/div/div/ul/li[2]/a")).click();
+        boolean flag = false;
+        for (WebElement row:
+                webDriver.findElements(By.cssSelector("body > app-root > div > app-cart-page > div > div.col-md-9.col-xs-12.mb-3 > table > tbody > tr"))) {
+            if (row.getText().contains(productName)) {
+                flag = true;
+                row.findElement(By.cssSelector(".btn-danger")).click();
+                break;
+            }
+        }
+        assertEquals(true, flag);
+    }
+
 
     @After
     public void quitBrowser() {
